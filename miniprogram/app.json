@@ -1,0 +1,16 @@
+{
+  "pages": [
+    "pages/home/home",
+    "pages/index/index"
+  ],
+  "plugins": {
+    "myPlugin": {
+      "version": "dev",
+      "provider": "wx4cefd1915989d4ce"
+    }
+  },
+  "functionalPages": {
+    "independent": true
+  },
+  "sitemapLocation": "sitemap.json"
+}

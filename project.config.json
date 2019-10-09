@@ -1,0 +1,12 @@
+{
+	"miniprogramRoot": "miniprogram/",
+	"pluginRoot": "plugin/",
+	"compileType": "plugin",
+	"setting": {},
+	"appid": "wx4cefd1915989d4ce",
+	"projectname": "%E6%8F%92%E4%BB%B6",
+	"simulatorType": "wechat",
+	"simulatorPluginLibVersion": {},
+	"libVersion": "2.8.3",
+	"condition": {}
+}
