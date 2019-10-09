@@ -34,9 +34,6 @@ var socket = {
       success(e){
       }
     })
-  },
-  getsocketData(data) {
-    return data;
   }
 }
 module.exports = {
