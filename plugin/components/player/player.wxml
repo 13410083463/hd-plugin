@@ -1,4 +1,4 @@
-<cover-view class="header" style='height: {{height*2 + 20}}px;'>
+<cover-view id="header" style='height: {{height*2 + 20}}px;'>
   <cover-view class="nav-capsule" style='height: {{height*2 + 20}}px;'>
     <cover-view class="box" style="margin-top:20px;">
       <navigator open-type="navigateBack">

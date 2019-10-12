@@ -7,10 +7,10 @@ Component({
     muted:Boolean
   },
   data: {
-    height: data.systemInfo.height,
+    height: data.api.systemInfo.height,
     login:false,
     player:true,
-    totleHeight: data.systemInfo.totleHeight,
+    totleHeight: data.api.systemInfo.totleHeight,
     args: {
       withCredentials: true,
       lang: 'zh_CN'

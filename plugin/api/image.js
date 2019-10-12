@@ -7,6 +7,7 @@ var img = {
   more: path +'xcxImg/more.png',
   fenxiang: path +'xcxImg/fenxiang.png',
   gz: path +'xcxImg/gz.png',
-  xcyf: path +'xcxImg/xcyf.png'
+  xcyf: path +'xcxImg/xcyf.png',
+  pause_publish: path +'static/img/daeed8616ac5df256c0591c22a65c4d3/pause_publish.jpg'
 }
 module.exports = img

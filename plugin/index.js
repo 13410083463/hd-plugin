@@ -1,12 +1,20 @@
-var api = require('./api/data.js')
-var url = require('./api/api.js')
-var http = require('./api/http.js')
-var util = require('./api/util.js')
-var image = require('./api/image.js')
-module.exports  = {
-  systemInfo: api.systemInfo,
-  url:url,
-  http: http,
-  util: util,
-  image: image
-}
+var obj = {}
+var modules = [{
+  name:'api',
+  filePath:'./api/data.js'
+},{
+  name:'url',
+  filePath:'./api/api.js'
+},{
+  name:'http',
+  filePath:'./api/http.js'
+},{
+  name:'util',
+  filePath:'./api/util.js'
+},{
+  name:'image',
+  filePath:'./api/image.js'
+}]
+for (let i in modules) obj[modules[i].name] = require(modules[i].filePath)
+module.exports = obj
+ 

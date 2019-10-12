@@ -8,8 +8,8 @@ Page({
     mode: 'SD',//SD（标清）, HD（高清）, FHD（超清）, RTC（实时通话）
     beauty: 5,//美颜数值 1-9 0关闭
     muted: false,//是否静音
-    height: data.systemInfo.height,
-    totleHeight: data.systemInfo.totleHeight,
+    height: data.api.systemInfo.height,
+    totleHeight: data.api.systemInfo.totleHeight,
     imageUrlPath: data.image,
     args: {
       withCredentials: true,
@@ -42,10 +42,8 @@ Page({
     }
     _this._initData()
   },
-  onMainPush: function (e) {
-  },
-  onMainError: function (e) {
-  },
+  onMainPush: function (e) { },
+  onMainError: function (e) { },
   //获取登录授权成功
   loginSuccess: function (res) {
     var _this = this;
@@ -96,7 +94,7 @@ Page({
   _getPushLive: function () {
     var _this = this;
     return new Promise((resolve, reject) => {
-      data.http.httpRequest({
+      data.http.httpRequest({ 
         url: data.url.get_pushUrl,
         method: 'POST',
         data: {},
@@ -231,48 +229,6 @@ Page({
   //切换相机
   switchCamera() {
     this.pusherContext && this.pusherContext.switchCamera({});
-  },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
   },
 
   /**
