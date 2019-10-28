@@ -1,44 +1,79 @@
-<cover-view id="header" style='height: {{height*2 + 20}}px;'>
+<cover-view class="p_header" style='height: {{height*2 + 20}}px;'>
   <cover-view class="nav-capsule" style='height: {{height*2 + 20}}px;'>
     <cover-view class="box" style="margin-top:20px;">
       <navigator open-type="navigateBack">
-        <cover-image class="fanhui" src="https://wh.dagaimao.cn/xcxImg/fanhui.png"></cover-image>
+        <cover-image class="fanhui" src="{{imageUrlPath.back}}"></cover-image>
       </navigator>
       <cover-view class="userInfo">
         <cover-image src='{{userInfo.logo || "../../image/logo.jpg"}}'></cover-image>
         <cover-view class="userName">
           <cover-view class="name">{{userInfo.merchname || '主播'}}</cover-view>
-          <cover-view class="chishu">5923观看</cover-view>
+          <cover-view class="chishu">{{total || '0'}}观看</cover-view>
         </cover-view>
       </cover-view>
     </cover-view>
   </cover-view>
 </cover-view>
-<live-pusher wx:if="{{player}}" class="pusher" id="pusher" enable-camera="{{camera}}" url="{{url}}" mode="{{mode}}" beauty="{{beauty}}" muted="{{muted}}"
-  aspect="9:16" waiting-image="https://mc.qcloudimg.com/static/img/daeed8616ac5df256c0591c22a65c4d3/pause_publish.jpg" min-bitrate="850" max-bitrate="1200" bindstatechange="onMainPush" binderror="onMainError"></live-pusher>
-<view  wx:if="{{login}}" class="admiradlesd">
+<live-pusher class="pusher"  style="top:{{-commentHeight}}rpx" id="pusher" enable-camera="{{camera}}" url="{{url}}" mode="{{mode}}" beauty="{{beauty}}" muted="{{muted}}"  aspect="9:16"  min-bitrate="850" max-bitrate="1200" bindstatechange="onMainPush" binderror="onMainError"></live-pusher>
+<cover-view class="p_page" wx:if="{{player}}" style="top:{{-commentHeight}}rpx">
+  <cover-image class='switchCamera' src='../../image/camera.png' catchtap="switchCamera"></cover-image>
+  <cover-view class="comment" scroll-top="{{scrollTop}}">
+    <cover-view class="chatcoze-ul">
+      <cover-view class="rt">
+        <cover-view>系统消息</cover-view>
+        <cover-view class="tips">{{windowInfo}}</cover-view>
+      </cover-view>
+      <cover-view class="barrage" wx:for="{{comment}}">
+        <cover-view class="userlogo">
+          <cover-image src="{{item.logo}}"></cover-image>
+        </cover-view>
+        <cover-view class="barrageTxt">
+          <cover-view style="color:red;">{{item.name}}</cover-view>
+          <cover-view style="color:{{item.type == 3 ? 'orange':'#fff' }};white-space: normal;">
+            {{item.content}}
+          </cover-view>
+        </cover-view>
+      </cover-view>
+    </cover-view>
+  </cover-view>
+  <cover-view class="footer">
+    <cover-view class="sanleft">
+      <cover-view>
+        <cover-image style="width:72rpx;height:82rpx;" src="{{imageUrlPath.gouwuche}}"></cover-image>
+      </cover-view>
+      <cover-view class="danmu" bindtap="showcomment">
+        <cover-image class="img" src="{{imageUrlPath.pinlun}}"></cover-image>
+        <cover-view>聊点什么吧</cover-view>
+      </cover-view>
+    </cover-view>
+    <cover-view class="sanright">
+      <cover-view class="block">
+        <cover-image class="imgmore" src="{{imageUrlPath.more}}"></cover-image>
+      </cover-view>
+      <cover-view class="block">
+        <cover-image class="img" src="{{imageUrlPath.fenxiang}}"></cover-image>
+      </cover-view>
+      <cover-view class="block">
+        <cover-image class="img" src="{{imageUrlPath.gz}}"></cover-image>
+      </cover-view>
+    </cover-view>
+  </cover-view>
+</cover-view>
+<cover-view class='shade' bindtap='_close' wx:if="{{showComment}}" style="top:{{-commentHeight}}rpx"></cover-view>
+<view class='icomment' wx:if="{{showComment}}" style="height:{{commentHeight}}rpx;">
+  <input class='inp' value="{{value}}" maxlength="50" placeholder="有爱评论，说点什么吧~" confirm-type="send" bindconfirm="pushComment" focus="{{focus}}" />
+</view>
+<view wx:if="{{login}}" class="admiradlesd">
   <view class="admission">
     <view class="character">您还未登录</view>
     <view class="wrestle">请先登录再进行操作</view>
     <view class="dictation">
-      <image src="https://wh.dagaimao.cn/xcxImg/xcyf.png"></image>
+      <image src="{{imageUrlPath.xcyf}}"></image>
     </view>
     <view class="bless">
       <functional-page-navigator name="loginAndGetUserInfo" args="{{ args }}" version="develop" bind:success="loginSuccess" bind:fail="loginFail">
-  <button class="admire admirable">登录</button>
-</functional-page-navigator>
+        <button class="admire admirable">登录</button>
+      </functional-page-navigator>
     </view>
   </view>
 </view>
-<!-- <cover-view class="opencame">
-    <cover-view class="box">
-        <cover-view class="title">需要获取你的摄像头，录音权限！</cover-view>
-        <cover-view class="setting" bindtap="_openSetting">
-            前往设置权限
-        </cover-view>
-    </cover-view>
-</cover-view> -->
-
-
-
-

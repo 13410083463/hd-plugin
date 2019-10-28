@@ -15,9 +15,9 @@ Page({
       withCredentials: true,
       lang: 'zh_CN'
     },
+    url:'',
     login: false,
     player: true,
-    url: '',
     windowInfo: '1、任何机构和个人不得通过黑洞智影平台对重大政治、军事、经济、社会、文化、体育等活动、事件的实况进行视音频直播。 2、严禁发表反党反政府的言论，或做出侮辱诋毁党和国家的行为。 3、严禁直接或间接传播淫秽、色情、挑逗性、大尺度内容。',
     userInfo: {},
     is_master: 2,
@@ -85,7 +85,7 @@ Page({
         }, () => {
           _this.pusherContext = wx.createLivePusherContext('pusher')
           _this.pusherContext.start()
-          data.util.socket.init(_this);
+           data.util.socket.init(_this);
         })
       }
     })
@@ -230,7 +230,6 @@ Page({
   switchCamera() {
     this.pusherContext && this.pusherContext.switchCamera({});
   },
-
   /**
    * 用户点击右上角分享
    */

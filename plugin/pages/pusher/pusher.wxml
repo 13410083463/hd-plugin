@@ -14,9 +14,9 @@
     </cover-view>
   </cover-view>
 </cover-view>
+<live-pusher class="pusher" wx:if="{{url}}" style="top:{{-commentHeight}}rpx" id="pusher" enable-camera="{{camera}}" url="{{url}}" mode="{{mode}}" beauty="{{beauty}}" muted="{{muted}}"  aspect="9:16"  min-bitrate="850" max-bitrate="1200" bindstatechange="onMainPush" binderror="onMainError"></live-pusher>
 <cover-view class="p_page" wx:if="{{player}}" style="top:{{-commentHeight}}rpx">
   <cover-image class='switchCamera' src='../../image/camera.png' catchtap="switchCamera"></cover-image>
-  <live-pusher class="pusher" id="pusher" enable-camera="{{camera}}" url="{{url}}" mode="{{mode}}" beauty="{{beauty}}" muted="{{muted}}" aspect="9:16" waiting-image="{{imageUrlPath.pause_publish}}" min-bitrate="850" max-bitrate="1200" bindstatechange="onMainPush" binderror="onMainError"></live-pusher>
   <cover-view class="comment" scroll-top="{{scrollTop}}">
     <cover-view class="chatcoze-ul">
       <cover-view class="rt">

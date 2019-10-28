@@ -1,48 +1,58 @@
 var data = require('../../index.js')
 Component({
-  properties:{
-    camera:Boolean,
-    mode:String,
-    beauty:Number,
-    muted:Boolean
+  properties: {
+    camera: Boolean,
+    mode: String,
+    beauty: Number,
+    muted: Boolean
   },
   data: {
     height: data.api.systemInfo.height,
-    login:false,
-    player:true,
+    login: false,
+    player: true,
+    height: data.api.systemInfo.height,
     totleHeight: data.api.systemInfo.totleHeight,
+    imageUrlPath: data.image,
     args: {
       withCredentials: true,
       lang: 'zh_CN'
     },
-    url:'',
-    userInfo:{}
+    url: 'rtmp://25234.livepush.myqcloud.com/live/25234_898032a2_46914?bizid=25234&txSecret=ae1547e7e1bf69fbfde0246a8ce39cbb&txTime=68977080',
+    userInfo: {},
+    windowInfo: '1、任何机构和个人不得通过黑洞智影平台对重大政治、军事、经济、社会、文化、体育等活动、事件的实况进行视音频直播。 2、严禁发表反党反政府的言论，或做出侮辱诋毁党和国家的行为。 3、严禁直接或间接传播淫秽、色情、挑逗性、大尺度内容。',
+    is_master: 2,
+    focus: false,
+    showComment: false,
+    commentHeight: 0,
+    comment: []
   },
-  attached: function(){
+  attached: function() {
     // 可以在这里发起网络请求获取插件的数据
+     this.pusherContext = wx.createLivePusherContext('pusher')
+    this.pusherContext.start({
+      success(e){
+        console.log(e)
+      }
+    })
   },
-  ready:function(){
+  ready: function() {
     var _this = this
     _this.setData({
-      player:false
+      player: false
     })
-    if(!wx.getStorageSync('id')){
+    if (!wx.getStorageSync('id')) {
       _this.setData({
-        login:true
+        login: true
       })
       return
     }
     _this._initData()
   },
-  methods:{
-    onMainPush: function (e) {
-      console.log(e)
-    },
-    onMainError: function (e) {
-      console.log(e)
-    },
+  methods: {
+    onMainPush: function(e) {},
+    onMainError: function(e) {},
     //获取登录授权成功
-    loginSuccess: function (res) {
+    loginSuccess: function(res) {
       var _this = this;
       data.http.login({
         url: data.url.login,
@@ -50,69 +60,191 @@ Component({
           code: res.detail.code
         }
       }).then((res) => {
-        console.log(res)
         if (res.code == 0) {
           wx.setStorageSync('id', res.token)
+          wx.setStorageSync('userInfo', res.userInfo)
           _this._initData();
         }
       })
     },
     //获取登录授权失败
-    loginFail: function (res) {
+    loginFail: function(res) {
       console.log(res);
     },
     //初始数据
-    _initData: function () {
+    _initData: function() {
       var _this = this;
       data.http.httpRequest({
         url: data.url.getMerchid,
         data: {}
       }, _this).then((res) => {
         _this.setData({
-          userInfo: res.account
+          userInfo: res.account,
+          merchid: res.merchid
         })
         return _this._getPushLive();
-      }).then((res)=>{
-        if(res.code == 200){
+      }).then((res) => {
+        if (res.code == 200) {
           _this.setData({
-            url:res.data.src,
-            login:false,
-            player:true
-          },()=>{
+            url: res.data.src,
+            login: false,
+            player: true
+          }, () => {
             _this.pusherContext = wx.createLivePusherContext('pusher')
             _this.pusherContext.start()
+            data.util.socket.init(_this);
           })
-         
         }
       })
     },
     //获取推流地址
-    _getPushLive:function() {
+    _getPushLive: function() {
       var _this = this;
-      return new Promise((resolve,reject)=>{
+      return new Promise((resolve, reject) => {
         data.http.httpRequest({
           url: data.url.get_pushUrl,
-          method:'POST',
-          data:{},
+          method: 'POST',
+          data: {},
           header: {
             'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
           }
-        },_this).then((res)=>{
+        }, _this).then((res) => {
           resolve(res)
         })
       })
     },
-    //设置权限
-    _openSetting(){
-      var _this = this;
-      wx.getSetting({
-        success(res) {
-          console.log(res)
-          if (res.authSetting['scope.camera'] && res.authSetting['scope.record']) {
-            console.log(1111)
-          }
+    _close() {
+      var that = this;
+      that.setData({
+        focus: false,
+        showComment: false,
+        commentHeight: 0
+      })
+    },
+    showcomment() {
+      var that = this;
+      that.setData({
+        focus: true,
+        showComment: true,
+        commentHeight: 80
+      })
+    },
+    //提交评论
+    pushComment(e) {
+      var that = this;
+      var res = {
+        'type': 'comment',
+        'data': {
+          'merchid': that.data.merchid,
+          'comment': e.detail.value,
+          'nike_name': that.data.userInfo.merchname,
+          'photo': that.data.userInfo.logo,
+          'beta_version': 1
         }
-      });
-    }
+      };
+      that.oncomment(res)
+      that.setData({
+        focus: false,
+        showComment: false,
+        commentHeight: 0
+      })
+    },
+    //弹幕检测
+    oncomment(comment) {
+      var that = this;
+      data.http.httpRequest({
+        url: data.url.content + comment.data.comment,
+        data: {}
+      }, that).then((res) => {
+        if (res.code == 200) {
+          data.util.socket.onsendSocketMessage(comment)
+        } else {
+          wx.showToast({
+            title: '您的弹幕有敏感词汇！请重新发送',
+            icon: 'none',
+            duration: 1000
+          })
+        }
+      })
+    },
+    //数据类型处理
+    onpreDataType(data) {
+      var that = this;
+      var userInfo = wx.getStorageSync('userInfo');
+      var comment = that.data.comment;
+      switch (data.type) {
+        case 'commentList':
+          var commentList = data.list;
+          for (let i in commentList) {
+            var cuttingList = commentList[i].split('|');
+            var obj = {
+              name: cuttingList[0],
+              content: cuttingList[1],
+              logo: cuttingList[2],
+              type: 2
+            }
+            comment.push(obj)
+          }
+          that.setData({
+            comment
+          })
+          break;
+        case 'comment':
+          var temp = data.comment.split('|');
+          var obj = {
+            name: temp[0],
+            content: temp[1],
+            logo: temp[2],
+            type: userInfo.nickName == that.data.userInfo.merchname ? 1 : 2
+          }
+          comment.push(obj)
+          that.setData({
+            comment
+          })
+          break;
+        case 'joinRoom':
+          var temp = data.content.split('|');
+          var obj = {
+            name: '',
+            content: temp[0] + temp[1],
+            logo: temp[2],
+            type: 3
+          }
+          comment.push(obj)
+          that.setData({
+            comment
+          })
+          break;
+        case 'refresh':
+          that.setData({
+            total: data.total
+          })
+          break;
+        default:
+      }
+      that.queryMultipleNodes();
+    },
+    //获取滚动条高度
+    queryMultipleNodes() {
+      var _this = this;
+      wx.createSelectorQuery().in(_this).select('.comment').boundingClientRect(function(res) {
+        console.log(res)
+        _this.setData({
+          chatbottom: res.height
+        })
+      }).exec()
+      wx.createSelectorQuery().in(_this).select('.chatcoze-ul').boundingClientRect(function(res) {
+        if (res.height != undefined && res.height != '' && res.height != null && typeof(res.height) != 'undefined') {
+          var setsbottom = Math.ceil(parseInt(res.height) - parseInt(_this.data.chatbottom));
+          _this.setData({
+            scrollTop: setsbottom
+          });
+        }
+      }).exec()
+    },
+    //切换相机
+    switchCamera() {
+      this.pusherContext && this.pusherContext.switchCamera({});
+    },
   },
 })

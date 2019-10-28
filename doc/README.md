@@ -4,7 +4,10 @@
 
 ## 示例代码
 ### 进入直播
-`<navigator url="plugin://myPlugin/hd-pusher"></navigator>                                                                  `
+`<navigator url="plugin://myPlugin/hd-pusher"></navigator>
+
+# 详细使用插件方式请参考微信官方文档
+https://developers.weixin.qq.com/miniprogram/dev/framework/plugin/using.html                                                         
 
 
 
