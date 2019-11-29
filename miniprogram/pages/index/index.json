@@ -1,6 +1,8 @@
 {
   "navigationStyle": "custom",
   "usingComponents": {
-    "livePlayer": "plugin://myPlugin/player"
+    "livePlayer": "plugin://myPlugin/player",
+    "createpusher":"plugin://myPlugin/createpusher",
+    "login":"plugin://myPlugin/login"
   }
 }

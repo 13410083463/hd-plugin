@@ -1,0 +1,4 @@
+<login
+  bind:loginSuccess="onloginSuccess"
+>
+</login>

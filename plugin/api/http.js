@@ -28,7 +28,6 @@ function request(options){
     }})
   })
 }
-
 function httpRequest(options,_this){
   return new Promise((resolve,reject)=>{
     var token = wx.getStorageSync('id')
@@ -56,7 +55,27 @@ function httpRequest(options,_this){
     }
   })
 }
+function httpRequest2(options){
+  return new Promise((resolve, reject) => {
+    var token = wx.getStorageSync('id')
+    options.data.key = token
+    request(options).then((res) => {
+      if (res.error != 5) {
+        resolve(res)
+      }else{
+        reject('用户未登陆')
+      }
+    }).catch((err) => {
+      wx.showToast({
+        title: '网络出现异常！',
+        icon: 'none',
+        duration: 1000
+      })
+    })
+  })
+}
 module.exports = {
   login: login,
-  httpRequest:httpRequest
+  httpRequest:httpRequest,
+  httpRequest2: httpRequest2
 }

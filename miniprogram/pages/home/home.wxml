@@ -1,3 +1,0 @@
-<navigator url="/pages/index/index">进入直播</navigator>
-<!-- <navigator url="plugin://myPlugin/hd-pusher">进入直播</navigator> -->
-<button bindtap="btn">fsdf</button>

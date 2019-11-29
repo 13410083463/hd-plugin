@@ -1,3 +1,0 @@
-<livePlayer camera="{{camera}}" mode="{{mode}}" beauty="{{beauty}}" muted="{{muted}}" bindstatechange="onMainPush">
-</livePlayer>
-

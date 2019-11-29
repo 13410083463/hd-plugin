@@ -1,10 +1,11 @@
 {
   "publicComponents": {
-    "player": "components/player/player"
+    "player": "components/player/player",
+    "createpusher":"components/createpusher/createpusher",
+    "login":"components/login/login"
   },
   "pages":{
-    "hd-pusher":"pages/pusher/pusher",
-    "login":"pages/login/login"
+    "hd-pusher":"pages/pusher/pusher"
   },
   "main": "index.js"
 }

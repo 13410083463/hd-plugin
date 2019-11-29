@@ -1,7 +1,8 @@
 {
   "pages": [
-    "pages/home/home",
-    "pages/index/index"
+    "pages/player/player",
+    "pages/createpusher/createpusher",
+    "pages/login/login"
   ],
   "plugins": {
     "myPlugin": {

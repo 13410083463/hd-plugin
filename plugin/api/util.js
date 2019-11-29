@@ -1,4 +1,14 @@
 var SocketTask = null;
+let systemInfo = {};
+//获取设备信息
+wx.getSystemInfo({
+  success(e) {
+    var height = (e.statusBarHeight * 2) + 20;
+    var totleHeight = e.screenHeight - height;
+    systemInfo.totleHeight = totleHeight;
+    systemInfo.height = e.statusBarHeight
+  }
+})
 var socket = {
   init(that) {
     var _this = that;
@@ -37,5 +47,6 @@ var socket = {
   }
 }
 module.exports = {
-  socket: socket
+  socket: socket,
+  systemInfo: systemInfo
 }

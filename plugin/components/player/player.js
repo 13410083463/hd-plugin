@@ -1,4 +1,4 @@
-var data = require('../../index.js')
+var util = require('../../util.js')
 Component({
   properties: {
     camera: Boolean,
@@ -7,17 +7,17 @@ Component({
     muted: Boolean
   },
   data: {
-    height: data.api.systemInfo.height,
+    height: util.util.systemInfo.height,
     login: false,
     player: true,
-    height: data.api.systemInfo.height,
-    totleHeight: data.api.systemInfo.totleHeight,
-    imageUrlPath: data.image,
+    height: util.util.systemInfo.height,
+    totleHeight: util.util.systemInfo.totleHeight,
+    imageUrlPath: util.image,
     args: {
       withCredentials: true,
       lang: 'zh_CN'
     },
-    url: 'rtmp://25234.livepush.myqcloud.com/live/25234_898032a2_46914?bizid=25234&txSecret=ae1547e7e1bf69fbfde0246a8ce39cbb&txTime=68977080',
+    url: '',
     userInfo: {},
     windowInfo: '1、任何机构和个人不得通过黑洞智影平台对重大政治、军事、经济、社会、文化、体育等活动、事件的实况进行视音频直播。 2、严禁发表反党反政府的言论，或做出侮辱诋毁党和国家的行为。 3、严禁直接或间接传播淫秽、色情、挑逗性、大尺度内容。',
     is_master: 2,
@@ -27,13 +27,6 @@ Component({
     comment: []
   },
   attached: function() {
-    // 可以在这里发起网络请求获取插件的数据
-     this.pusherContext = wx.createLivePusherContext('pusher')
-    this.pusherContext.start({
-      success(e){
-        console.log(e)
-      }
-    })
   },
   ready: function() {
     var _this = this
@@ -54,8 +47,9 @@ Component({
     //获取登录授权成功
     loginSuccess: function(res) {
       var _this = this;
-      data.http.login({
-        url: data.url.login,
+      _this.triggerEvent('loginSuccess', { is_login: true })
+      util.http.login({
+        url: util.url.login,
         data: {
           code: res.detail.code
         }
@@ -74,8 +68,8 @@ Component({
     //初始数据
     _initData: function() {
       var _this = this;
-      data.http.httpRequest({
-        url: data.url.getMerchid,
+      util.http.httpRequest({
+        url: util.url.getMerchid,
         data: {}
       }, _this).then((res) => {
         _this.setData({
@@ -92,7 +86,7 @@ Component({
           }, () => {
             _this.pusherContext = wx.createLivePusherContext('pusher')
             _this.pusherContext.start()
-            data.util.socket.init(_this);
+            util.util.socket.init(_this);
           })
         }
       })
@@ -101,8 +95,8 @@ Component({
     _getPushLive: function() {
       var _this = this;
       return new Promise((resolve, reject) => {
-        data.http.httpRequest({
-          url: data.url.get_pushUrl,
+        util.http.httpRequest({
+          url: util.url.get_pushUrl,
           method: 'POST',
           data: {},
           header: {
@@ -152,8 +146,8 @@ Component({
     //弹幕检测
     oncomment(comment) {
       var that = this;
-      data.http.httpRequest({
-        url: data.url.content + comment.data.comment,
+      util.http.httpRequest({
+        url: util.url.content + comment.data.comment,
         data: {}
       }, that).then((res) => {
         if (res.code == 200) {
@@ -228,7 +222,6 @@ Component({
     queryMultipleNodes() {
       var _this = this;
       wx.createSelectorQuery().in(_this).select('.comment').boundingClientRect(function(res) {
-        console.log(res)
         _this.setData({
           chatbottom: res.height
         })

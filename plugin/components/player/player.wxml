@@ -14,7 +14,7 @@
     </cover-view>
   </cover-view>
 </cover-view>
-<live-pusher class="pusher"  style="top:{{-commentHeight}}rpx" id="pusher" enable-camera="{{camera}}" url="{{url}}" mode="{{mode}}" beauty="{{beauty}}" muted="{{muted}}"  aspect="9:16"  min-bitrate="850" max-bitrate="1200" bindstatechange="onMainPush" binderror="onMainError"></live-pusher>
+<live-pusher class="pusher" wx:if="{{url}}" style="top:{{-commentHeight}}rpx" id="pusher" enable-camera="{{camera}}" url="{{url}}" mode="{{mode}}" beauty="{{beauty}}" muted="{{muted}}"  aspect="9:16"  min-bitrate="850" max-bitrate="1200" bindstatechange="onMainPush" binderror="onMainError"></live-pusher>
 <cover-view class="p_page" wx:if="{{player}}" style="top:{{-commentHeight}}rpx">
   <cover-image class='switchCamera' src='../../image/camera.png' catchtap="switchCamera"></cover-image>
   <cover-view class="comment" scroll-top="{{scrollTop}}">
@@ -65,7 +65,7 @@
 </view>
 <view wx:if="{{login}}" class="admiradlesd">
   <view class="admission">
-    <view class="character">您还未登录</view>
+    <navigator url=""><view class="character">您还未登录</view></navigator>
     <view class="wrestle">请先登录再进行操作</view>
     <view class="dictation">
       <image src="{{imageUrlPath.xcyf}}"></image>

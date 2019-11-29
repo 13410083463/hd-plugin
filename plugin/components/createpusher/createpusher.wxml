@@ -1,0 +1,17 @@
+<view class="w_live_cover">
+  <view class="w_title">直播封面图</view>
+   <view wx:if="{{imgUrl}}" class="w_cover_img">
+      <image src="../../image/close.png"></image>
+  </view>
+  <view wx:else class="w_addcover_img">
+    <image src="../../image/zhuanfa.png"></image>
+  </view>
+</view>
+<!-- <view class="w_pusher_title">
+  <text>直播标题</text>
+  <input bindinput="inputTitle" placeholder='给直播取个响亮的标题'></input>
+</view> -->
+<view class="w_start_pusher">开始直播</view>
+
+
+<view bindtap='onTapChild'>fjidsjfijdsif</view>

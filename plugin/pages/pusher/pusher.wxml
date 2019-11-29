@@ -65,7 +65,7 @@
 </view>
 <view wx:if="{{login}}" class="admiradlesd">
   <view class="admission">
-    <view class="character">您还未登录</view>
+    <view class="character" bindtap="aaa">您还未登录</view>
     <view class="wrestle">请先登录再进行操作</view>
     <view class="dictation">
       <image src="{{imageUrlPath.xcyf}}"></image>

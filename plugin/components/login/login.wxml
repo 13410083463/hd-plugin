@@ -1,0 +1,3 @@
+<functional-page-navigator name="loginAndGetUserInfo" args="{{ args }}" version="develop" bind:success="loginSuccess" bind:fail="loginFail">
+    <button class="admire admirable">登录</button>
+</functional-page-navigator> 
